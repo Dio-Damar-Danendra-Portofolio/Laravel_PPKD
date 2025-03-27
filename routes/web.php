@@ -1,16 +1,17 @@
 <?php
 
 use App\Http\Controllers\BelajarController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LatihanController;
 use App\Http\Controllers\LoginController;
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BelajarController::class, 'index']);
-Route::get('/login', [LoginController::class, 'login']);
-Route::post('/action-login', [LoginController::class, 'actionLogin']);
-
-
+Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::post('action-login', [LoginController::class, 'actionLogin']);
 
 Route::get('belajar', [BelajarController::class, 'index']);
 Route::get('tambah', [BelajarController::class, 'tambah']);
@@ -30,6 +31,14 @@ Route::post('action-modulo', [BelajarController::class, 'actionModulo']);
 Route::post('action-pangkat', [BelajarController::class, 'actionPangkat']);
 Route::post('action-logaritma-basis-10', [BelajarController::class, 'actionLog10']);
 Route::post('action-logaritma-natural', [BelajarController::class, 'actionLog']);
+
+Route::group(['middleware' =>'auth'], function(){
+    Route::resource('dashboard', DashboardController::class);
+    Route::resource('categories', CategoriesController::class);
+});
+Route::resource('users', UserController::class);
+
+
 
 // tambah
 
