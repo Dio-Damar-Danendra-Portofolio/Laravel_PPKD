@@ -44,7 +44,10 @@ class ProductsController extends Controller
         }
         Products::create($data);
 
-        return redirect()->to('products')->with('success', 'Product Successfully Added!');
+        toast('Product Data Successfully Added!', 'success');
+
+
+        return redirect()->to('products');
     }
 
     /**
@@ -102,6 +105,9 @@ class ProductsController extends Controller
         $product = Products::findOrFail($id);
         File::delete(public_path('storage/'.$product->product_photo));
         $product->delete();
+
+        toast('Product Data Successfully Deleted!', 'success');
+
         return redirect()->to('products')->with('success', 'Product Data Successfully Deleted!');
     }
 }
