@@ -89,7 +89,9 @@ class ProductsController extends Controller
 
         $product->update($data);
 
-        return redirect()->to('products')->with('success', 'Product Data Successfully Updated!');
+        toast('Product Data Successfully Updated!', 'success');
+
+        return redirect()->to('products');
     }
 
     /**
