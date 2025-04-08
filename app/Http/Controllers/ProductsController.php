@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Categories;
 use Illuminate\Support\Facades\File;
-
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class ProductsController extends Controller
