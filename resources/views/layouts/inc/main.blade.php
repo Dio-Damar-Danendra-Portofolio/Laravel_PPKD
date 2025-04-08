@@ -41,6 +41,8 @@
 <body>
 
   <!-- ======= Header ======= -->
+  @include('sweetalert::alert')
+
   @include('layouts.inc.header')
   <!-- End Header -->
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BelajarController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LatihanController;
@@ -9,7 +10,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [BelajarController::class, 'index']);
+// Route::get('/', [BelajarController::class, 'index']);
+Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('action-login', [LoginController::class, 'actionLogin']);
 
@@ -35,8 +37,11 @@ Route::post('action-logaritma-natural', [BelajarController::class, 'actionLog'])
 Route::group(['middleware' =>'auth'], function(){
     Route::resource('dashboard', DashboardController::class);
     Route::resource('categories', CategoriesController::class);
+    Route::resource('products', ProductsController::class);
+    Route::resource('users', UserController::class);
+
 });
-Route::resource('users', UserController::class);
+
 
 
 

@@ -17,8 +17,7 @@ class CategoriesSeeder extends Seeder
             ['category_name'=> 'Makanan Ringan'],
             ['category_name'=> 'Makanan Berat'],
             ['category_name'=> 'Makanan Penutup'],
-            ['category_name'=> 'Minuman'],
-            ['category_name'=> 'Non Alkohol'],
+            ['category_name'=> 'Minuman']
         ]);
     }
 }
