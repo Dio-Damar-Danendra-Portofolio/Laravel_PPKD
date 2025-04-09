@@ -8,6 +8,9 @@
                 <div class="card-body">
                     <div class="card-title">
                         <h5>{{ $title ?? '' }}</h5>
+                        <div class="mt-2" align="right">
+                            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                        </div>
                         <form action="{{ route('categories.store') }}" method="post">
                             @csrf
                             <div class="mb-3">
@@ -17,7 +20,6 @@
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <button type="reset" class="btn btn-danger">Cancel</button>
-                                <a href="{{ url()->previous() }}" class="text-primary">Back</a>
                             </div>
                         </form>
                     </div>

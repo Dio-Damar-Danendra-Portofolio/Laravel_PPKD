@@ -8,6 +8,9 @@
                 <div class="card-body">
                     <div class="card-title">
                         <h5>{{ $title ?? '' }}</h5>
+                        <div class="mt-2" align="right">
+                            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                        </div>
                         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
@@ -37,13 +40,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="is_active" class="col-form-label">Status: <span class="text-danger">*</span></label>
-                                <input type="radio" name="is_active" id="is_active" value="1" selected>
-                                <input type="radio" name="is_active" id="is_active" value="0">
+                                <input type="radio" name="is_active" id="is_active" value="1" selected> Publish
+                                <input type="radio" name="is_active" id="is_active" value="0"> Draft
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <button type="reset" class="btn btn-danger">Cancel</button>
-                                <a href="{{ url()->previous() }}" class="text-primary">Back</a>
                             </div>
                         </form>
                     </div>

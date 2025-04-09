@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LatihanController;
 use App\Http\Controllers\LoginController;
 
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,8 +40,12 @@ Route::group(['middleware' =>'auth'], function(){
     Route::resource('categories', CategoriesController::class);
     Route::resource('products', ProductsController::class);
     Route::resource('users', UserController::class);
-
+    Route::resource('pos', TransactionController::class);    
+    
+    Route::get('get_product/{id}', [TransactionController::class, 'getProduct']);
 });
+
+
 
 
 

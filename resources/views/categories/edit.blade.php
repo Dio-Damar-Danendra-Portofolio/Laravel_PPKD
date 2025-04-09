@@ -8,6 +8,9 @@
                 <div class="card-body">
                     <div class="card-title">
                         <h5>{{ $title ?? '' }}</h5>
+                        <div class="mt-2" align="right">
+                            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                        </div>
                         <form action="{{ route('categories.update', $edit->id) }}" method="post">
                             @csrf
                             @method('put')

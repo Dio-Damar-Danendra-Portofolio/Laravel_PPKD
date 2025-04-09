@@ -96,8 +96,52 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
 
   @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
+
+  <script>
+    $('#category_id').change(function() {
+      let cat_id = $(this).val();
+      option = `<option value="">Select One</option>`;
+      $.ajax({
+        url:'',
+        type:'GET',
+        dataType:'json',
+        success: function (resp) {
+          $.each(resp.data, function (index, value) {
+            option += `<option value="${value.id}">${value.product_name}</option>`;
+          });
+          console.log(option);
+          $('#product_id').html(option);
+        }
+      });
+    });
+    $(".add-row").click(function() {
+        let tbody = $('tbody');
+        let nama_produk = $('#product_id').Find('option:selected').text();
+        if ($('#category_id').val() == "") {
+            alert('Category required');
+            return false;
+        }
+
+        let new_row = "<tr>";
+        new_row += `<td><img src="" alt="Image not available"></td>`;
+        new_row += `<td>${nama_produk}</td>`;
+        new_row += `<td>Qty</td>`;
+        new_row += `<td>Price</td>`;
+        new_row += "</tr>";
+
+        tbody.append(new_row);
+
+        clearAll();
+    });
+
+    function clearAll() {
+      $('#product_id').val("");
+      $('#category_id').val("");
+    }
+  </script>
 
 </body>
 
