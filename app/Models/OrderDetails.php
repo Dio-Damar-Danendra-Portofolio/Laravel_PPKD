@@ -10,10 +10,16 @@ class OrderDetails extends Model
         'qty',
         'order_price',
         'order_subtotal',
-        'order_status'
+        'order_status',
+        'product_id',
+        'order_id'
     ];
 
-    public function kepemilikan(){
+    public function kepemilikan_pesanan(){
         return $this->belongsTo(Orders::class, 'order_id', 'id');
+    }
+
+    public function kepemilikan_produk(){
+        return $this->belongsTo(Products::class, 'product_id', 'id');
     }
 }
