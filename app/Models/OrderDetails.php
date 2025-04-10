@@ -10,7 +10,6 @@ class OrderDetails extends Model
         'qty',
         'order_price',
         'order_subtotal',
-        'order_status',
         'product_id',
         'order_id'
     ];
