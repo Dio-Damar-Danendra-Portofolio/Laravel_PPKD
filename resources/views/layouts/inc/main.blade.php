@@ -101,41 +101,81 @@
   @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
 
   <script>
+    function formatRupiah(number) {
+        const formatted = number.toLocaleString("id", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        });
+
+        return formatted;
+    }
     $('#category_id').change(function() {
       let cat_id = $(this).val();
       option = `<option value="">Select One</option>`;
       $.ajax({
-        url:'',
+        url:'/get_product/'+ cat_id,
         type:'GET',
         dataType:'json',
         success: function (resp) {
           $.each(resp.data, function (index, value) {
-            option += `<option value="${value.id}">${value.product_name}</option>`;
+            option += `<option value="${value.id}" data-price="${value.product_price}" data-image="${value.product_image}">${value.product_name}</option>`;
           });
-          console.log(option);
           $('#product_id').html(option);
         }
       });
     });
     $(".add-row").click(function() {
         let tbody = $('tbody');
-        let nama_produk = $('#product_id').Find('option:selected').text();
+        let selected_option = $('#product_id').find('option:selected');
+        let nama_produk = selected_option.text();
+        let foto_produk = selected_option.data('img');
+        let harga_produk = parseInt(selected_option.data('price'));
+        console.log(harga_produk)
         if ($('#category_id').val() == "") {
             alert('Category required');
             return false;
         }
 
+        if ($('#product_id').val() == "") {
+            alert('Product required');
+            return false;
+        }
+
         let new_row = "<tr>";
-        new_row += `<td><img src="" alt="Image not available"></td>`;
+        new_row += `<td><img src="{{ asset('storage/${foto_produk}') }}" alt="Image not available" width="100"></td>`;
         new_row += `<td>${nama_produk}</td>`;
-        new_row += `<td>Qty</td>`;
-        new_row += `<td>Price</td>`;
+        new_row += `<td width='110px'><input value='1' type='number' name='qty[]' class='qty form-control'></td>`;
+        new_row += `<td><span class='price' data-price=${harga_produk}>${formatRupiah(harga_produk)}</span></td>`;
+        new_row += `<td><span class='subtotal'>${formatRupiah(harga_produk)}</span></td>`;
         new_row += "</tr>";
 
         tbody.append(new_row);
+        calculate_sub_total();
 
         clearAll();
+
+        $('.qty').off().on('input', function(){
+            let row = $(this).closest('tr');
+            let qty = parseInt($(this).val()) || 0;
+            let price = parseInt(row.find('.price').data('price')) || 0;
+            let total = qty * price;
+            row.find('.subtotal').text(total); //NaN
+            calculate_sub_total();
+        });
     });
+
+    function calculate_sub_total() {
+      let grandtotal = 0;
+        $('.subtotal').each(function() {
+            let total = parseInt($(this).text().replace(/\./g, ''));
+            grandtotal += total;
+            console.log("total", total);
+        });
+
+        console.log(grandtotal);
+        $('.grandtotal').text(formatRupiah(grandtotal));
+        $('input[name="grandtotal"]').val(grandtotal);
+    }
 
     function clearAll() {
       $('#product_id').val("");

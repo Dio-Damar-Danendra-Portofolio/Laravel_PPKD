@@ -66,7 +66,7 @@ class ProductsController extends Controller
         $edit = Products::findOrFail($id);
         $title = "Edit Product";
         $categories = Categories::orderBy('id', 'desc')->get();
-        return view('products.edit', compact('edit', 'title'));
+        return view('products.edit', compact('edit', 'title', 'categories'));
     }
 
     /**

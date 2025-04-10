@@ -33,7 +33,7 @@
                                     <td>{{ $pro->product_description }}</td>
                                     <td><img src="{{ asset('storage/' . $pro->product_photo) }}" alt="Gambar tidak tersedia"></td>
                                     <td>{{ $pro->product_price }}</td>
-                                    <td>{{ $pro->category_name }}</td>
+                                    <td>{{ $pro->category_id }}</td>
                                     <td>{{ $pro->is_active ? 'Publish' : 'Draft' }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-sm" href="{{ route('products.edit', $pro->id) }}"><i class="bi bi-pencil"></i></a>

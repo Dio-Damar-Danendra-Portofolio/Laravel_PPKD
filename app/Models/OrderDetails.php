@@ -13,7 +13,7 @@ class OrderDetails extends Model
         'order_status'
     ];
 
-    public function dkfjhkh(){
-        return $this->belongsTo();
+    public function kepemilikan(){
+        return $this->belongsTo(Orders::class, 'order_id', 'id');
     }
 }

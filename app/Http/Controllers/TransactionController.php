@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Categories;
@@ -32,20 +33,30 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $query_order_code = Orders::max('id');
+        $query_order_code++;
+        $order_code = "ORD" . date("dmY") . sprintf("%03d", $query_order_code);
         $data = [
-            'qty' => $request->qty,
-            'order_status' => $request->order_status,
-            'order_change' => $request->order_change,
-            'product_price' => $request->product_price,
-            'is_active' => $request->is_active
+            'order_status' => 1,
+            'order_change' => 1,
+            'order_code' => $request->order_code,
+            'order_date' => date("Y-m-d"),
+            'order_amount' => $request->grandtotal,
         ];
 
-        if ($request->hasFile('product_photo')) {
-            $photo = $request->file('product_photo')->store('product', 'public');
-            $data['product_photo'] = $photo;
-        }
-        Orders::create($data);
+        $order = Orders::create($data);
+        $qty = $request->qty;
+        foreach ($qty as $key => $jumlah) {
+            OrderDetails::create([
+                'order_id' => $order->id,
+                'product_id' => $request->product_id[$key],
+                'quantity'=> $request->qty[$key],
+                'order_price'=> $request->order_price[$key],
+                'order_subtotal'=> $request->order_subtotal[$key]
+            ]);
 
+
+        }
         toast('Product Data Successfully Added!', 'success');
 
 
@@ -113,7 +124,7 @@ class TransactionController extends Controller
 
     public function getProduct($category_id){
         $products = Products::where('category_id', $category_id)->get();
-        $response = ['status' => 'success', 'message' => 'Product Successfully Fetched!', 'data' => 'products'];
+        $response = ['status' => 'success', 'message' => 'Product Successfully Fetched!', 'data' => $products];
         return response()->json($response, 200);
     }
 }

@@ -11,7 +11,7 @@
                         <div class="mt-2" align="right">
                             <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
                         </div>
-                        <form action="{{ route('products.update') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('products.update', $edit->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="mb-3">
@@ -48,8 +48,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="is_active" class="col-form-label">Status: <span class="text-danger">*</span></label>
-                                <input type="radio" name="is_active" id="is_active" value="1" {{ $edit->product_id == $edit->product_status ? 'selected' : ''}}> Publish
-                                <input type="radio" name="is_active" id="is_active" value="0"> Draft
+                                <input type="radio" name="is_active" id="is_active" value="1" {{ $edit->product_id == $edit->product_status ? 'checked' : ''}}> Publish
+                                <input type="radio" name="is_active" id="is_active" value="0" {{ $edit->product_id == $edit->product_status ? 'checked' : ''}}> Draft
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Save</button>
