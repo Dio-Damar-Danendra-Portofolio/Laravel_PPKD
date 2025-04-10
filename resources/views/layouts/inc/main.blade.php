@@ -128,6 +128,7 @@
         let tbody = $('tbody');
         let selected_option = $('#product_id').find('option:selected');
         let nama_produk = selected_option.text();
+        let product_id = selected_option.val();
         let foto_produk = selected_option.data('img');
         let harga_produk = parseInt(selected_option.data('price'));
         console.log(harga_produk)
@@ -143,7 +144,7 @@
 
         let new_row = "<tr>";
         new_row += `<td><img src="{{ asset('storage/${foto_produk}') }}" alt="Image not available" width="100"></td>`;
-        new_row += `<td>${nama_produk}</td>`;
+        new_row += `<td>${nama_produk} <input type='hidden' name='product_id' value='${product_id}'></td>`;
         new_row += `<td width='110px'><input value='1' type='number' name='qty[]' class='qty form-control'></td>`;
         new_row += `<td><span class='price' data-price=${harga_produk}>${formatRupiah(harga_produk)}</span></td>`;
         new_row += `<td><span class='subtotal'>${formatRupiah(harga_produk)}</span></td>`;
