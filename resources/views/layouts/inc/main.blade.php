@@ -144,10 +144,10 @@
 
         let new_row = "<tr>";
         new_row += `<td><img src="{{ asset('storage/${foto_produk}') }}" alt="Image not available" width="100"></td>`;
-        new_row += `<td>${nama_produk} <input type='hidden' name='product_id' value='${product_id}'></td>`;
+        new_row += `<td>${nama_produk} <input type='hidden' name='product_id[]' value='${product_id}'></td>`;
         new_row += `<td width='110px'><input value='1' type='number' name='qty[]' class='qty form-control'></td>`;
-        new_row += `<td><span class='price' data-price=${harga_produk}>${formatRupiah(harga_produk)}</span></td>`;
-        new_row += `<td><span class='subtotal'>${formatRupiah(harga_produk)}</span></td>`;
+        new_row += `<td><input type='hidden' name='order_price[]' value='${product_price}'><span class='price' data-price=${harga_produk}>${formatRupiah(harga_produk)}</span></td>`;
+        new_row += `<td><input type='hidden' class='subtotal_input' name='order_subtotal[]' value='${product_price}'><span class='subtotal'>${formatRupiah(harga_produk)}</span></td>`;
         new_row += "</tr>";
 
         tbody.append(new_row);
@@ -160,7 +160,8 @@
             let qty = parseInt($(this).val()) || 0;
             let price = parseInt(row.find('.price').data('price')) || 0;
             let total = qty * price;
-            row.find('.subtotal').text(total); //NaN
+            row.find('.subtotal').text(formatRupiah(total)); //NaN
+            row.find('.subtotal_input').val(formatRupiah(total)); //NaN
             calculate_sub_total();
         });
     });
