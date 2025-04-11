@@ -25,7 +25,6 @@ class TransactionController extends Controller
         $categories = Categories::orderBy('id', 'desc')->get();
         $products = Products::orderBy('id', 'desc')->get();
         return view('pos.create', compact('title', 'categories', 'products'));
-
     }
 
     /**
@@ -39,7 +38,7 @@ class TransactionController extends Controller
         $data = [
             'order_status' => 1,
             'order_change' => 1,
-            'order_code' => $request->order_code,
+            'order_code' => $order_code,
             'order_date' => date("Y-m-d"),
             'order_amount' => $request->grandtotal,
         ];
@@ -50,17 +49,15 @@ class TransactionController extends Controller
             OrderDetails::create([
                 'order_id' => $order->id,
                 'product_id' => $request->product_id[$key],
-                'quantity'=> $request->qty[$key],
+                'qty'=> $request->qty[$key],
                 'order_price'=> $request->order_price[$key],
                 'order_subtotal'=> $request->order_subtotal[$key]
             ]);
-
-
         }
-        toast('Product Data Successfully Added!', 'success');
+        toast('Order Data Successfully Added!', 'success');
 
 
-        return redirect()->to('products');
+        return redirect()->to('pos');
     }
 
     /**
@@ -68,7 +65,11 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Orders::findOrFail($id);
+        $orderDetails = OrderDetails::with('kepemilikan_produk', 'kepemilikan_pesanan')->where('order_id', $id)->get();
+        // return $orderDetails;
+        $title = "Order Details of " . $order->order_code;
+        return view('pos.show', compact('order', 'orderDetails', 'title'));
     }
 
     /**
@@ -126,5 +127,12 @@ class TransactionController extends Controller
         $products = Products::where('category_id', $category_id)->get();
         $response = ['status' => 'success', 'message' => 'Product Successfully Fetched!', 'data' => $products];
         return response()->json($response, 200);
+    }
+
+    public function print(string $id)
+    {
+        $order = Orders::with('orderDetails')->findOrFail($id);
+        $orderDetails = OrderDetails::with('kepemilikan_produk', 'kepemilikan_pesanan')->where('order_id', $id)->get();
+        return view('pos.print-bill', compact('order', 'orderDetails'));
     }
 }

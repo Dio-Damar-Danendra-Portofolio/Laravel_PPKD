@@ -40,9 +40,11 @@ Route::group(['middleware' =>'auth'], function(){
     Route::resource('categories', CategoriesController::class);
     Route::resource('products', ProductsController::class);
     Route::resource('users', UserController::class);
-    Route::resource('pos', TransactionController::class);    
-    
+    Route::resource('pos', TransactionController::class);
+
     Route::get('get_product/{id}', [TransactionController::class, 'getProduct']);
+    Route::get('print-bill/{id}', [TransactionController::class, 'print'])->name('print-bill');
+
 });
 
 

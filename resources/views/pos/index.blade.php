@@ -33,10 +33,10 @@
                                     <td>{{ $ord->order_status ? 'Paid' : 'Unpaid'}}</td>
                                     <td>
                                         <a class="btn btn-secondary btn-sm" href="{{ route('pos.show', $ord->id) }}">
-                                            <i class="bi bi-detail"></i>
+                                            <i class="bi bi-eye"></i>
                                         </a>
-                                        <a class="btn btn-success btn-sm" href="{{ route('pos.edit', $ord->id) }}">
-                                            <i class="bi bi-print"></i>
+                                        <a class="btn btn-success btn-sm" href="{{ route('print-bill', $ord->id) }}">
+                                            <i class="bi bi-printer"></i>
                                         </a>
                                         <form class="d-inline" action="{{ route('pos.destroy', $ord->id) }}" method="post">
                                             @csrf

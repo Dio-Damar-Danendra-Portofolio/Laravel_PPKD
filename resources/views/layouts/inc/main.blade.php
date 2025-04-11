@@ -118,7 +118,7 @@
         dataType:'json',
         success: function (resp) {
           $.each(resp.data, function (index, value) {
-            option += `<option value="${value.id}" data-price="${value.product_price}" data-image="${value.product_image}">${value.product_name}</option>`;
+            option += `<option value="${value.id}" data-price="${value.product_price}" data-image="${value.product_photo}">${value.product_name}</option>`;
           });
           $('#product_id').html(option);
         }
@@ -129,9 +129,10 @@
         let selected_option = $('#product_id').find('option:selected');
         let nama_produk = selected_option.text();
         let product_id = selected_option.val();
-        let foto_produk = selected_option.data('img');
+        let foto_produk = selected_option.data('image');
         let harga_produk = parseInt(selected_option.data('price'));
-        console.log(harga_produk)
+        console.log(foto_produk);
+
         if ($('#category_id').val() == "") {
             alert('Category required');
             return false;
@@ -146,8 +147,8 @@
         new_row += `<td><img src="{{ asset('storage/${foto_produk}') }}" alt="Image not available" width="100"></td>`;
         new_row += `<td>${nama_produk} <input type='hidden' name='product_id[]' value='${product_id}'></td>`;
         new_row += `<td width='110px'><input value='1' type='number' name='qty[]' class='qty form-control'></td>`;
-        new_row += `<td><input type='hidden' name='order_price[]' value='${product_price}'><span class='price' data-price=${harga_produk}>${formatRupiah(harga_produk)}</span></td>`;
-        new_row += `<td><input type='hidden' class='subtotal_input' name='order_subtotal[]' value='${product_price}'><span class='subtotal'>${formatRupiah(harga_produk)}</span></td>`;
+        new_row += `<td><input type='hidden' name='order_price[]' value='${harga_produk}'><span class='price' data-price=${harga_produk}>${formatRupiah(harga_produk)}</span></td>`;
+        new_row += `<td><input type='hidden' class='subtotal_input' name='order_subtotal[]' value='${harga_produk}'><span class='subtotal'>${formatRupiah(harga_produk)}</span></td>`;
         new_row += "</tr>";
 
         tbody.append(new_row);
@@ -161,7 +162,7 @@
             let price = parseInt(row.find('.price').data('price')) || 0;
             let total = qty * price;
             row.find('.subtotal').text(formatRupiah(total)); //NaN
-            row.find('.subtotal_input').val(formatRupiah(total)); //NaN
+            row.find('.subtotal_input').val(total); //NaN
             calculate_sub_total();
         });
     });

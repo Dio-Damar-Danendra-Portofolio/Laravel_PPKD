@@ -11,7 +11,8 @@ class OrderDetails extends Model
         'order_price',
         'order_subtotal',
         'product_id',
-        'order_id'
+        'order_id',
+        'category_id'
     ];
 
     public function kepemilikan_pesanan(){
